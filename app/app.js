@@ -45,7 +45,7 @@ function round(number, decimal) {
 }
 
 // Takes in 4 mcp values, returns the largest in format {name: "name", value: "value"}
-function find_largest_mcp_value(height, distance, frequency, force) {
+export function find_largest_mcp_value(height, distance, frequency, force) {
   let name;
   let value;
 
@@ -146,10 +146,6 @@ function calculate_mcp(height, distance, frequency, force, action = "push") {
     biggest_mcp["name"]
   } with a metric contribution of ${round(biggest_mcp["value"], 2)}.`;
 }
-
-// Testing for the calculator
-// const result = calculate_mcp(1.5, 4, 3, 10);
-// console.log(result);
 
 // Turn the calculate_mcp function into a tool
 const calculate_mcp_function = {
@@ -268,13 +264,3 @@ async function chat(message, history) {
 
   return response.choices[0].message.content;
 }
-
-// Testing
-
-const userMessage = `Hi there Ergo. I am evaluating a push task. The force to move the object is 30kg, the distance is 10 meters, the hand height is 2.5 meters, and the frequency is 1 time per minute.`;
-
-console.log(`***\nUser:\n${userMessage}\n***`);
-
-const reply = await chat(userMessage, []);
-
-console.log(`***\nLLM:\n${reply}\n***`);
