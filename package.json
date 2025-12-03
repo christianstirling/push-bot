@@ -1,0 +1,30 @@
+{
+  "name": "push_bot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An LLM-powered chat bot designed to provide task-level analysis and solutions for push- and pull-related jobs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "client": "npm run dev --prefix client",
+    "server": "npm run dev --prefix server",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "jest": "^30.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianstirling/push-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christianstirling/push-bot/issues"
+  },
+  "homepage": "https://github.com/christianstirling/push-bot#readme"
+  
+}
