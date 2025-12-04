@@ -1,7 +1,7 @@
 // server/functions/chat.js
 import { MODEL } from "../services/openai.js";
 import { system_message } from "../prompts/system_message.js";
-import { tools } from "../tools/index.js";
+import { tools } from "../definitions/index.js";
 import { handle_tool_calls } from "./handle_tool_calls.js";
 
 export async function chat(message, history, client) {

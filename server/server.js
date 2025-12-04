@@ -1,9 +1,9 @@
 // server/server.js
 
-import { getEnv } from "./config/env.js";
+import { get_env } from "./config/env.js";
 import app from "./app.js";
 
-const { PORT } = getEnv();
+const { PORT } = get_env();
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

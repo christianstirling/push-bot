@@ -1,4 +1,4 @@
-// server/tools/calculate_mcp_function.js
+// server/definitions/determine_most_impactful_input_function.js
 
 // Turn the calculate_mcp function into a tool
 export const determine_most_impactful_input_function = {

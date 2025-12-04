@@ -1,6 +1,6 @@
 // server/functions/handle_tool_calls.js
 
-import { calculate_mcp } from "./calculate_mcp.js";
+import { determine_most_impactful_input } from "../tools/determine_most_impactful_input.js";
 
 export function handle_tool_calls(message) {
   const responses = [];
@@ -24,7 +24,7 @@ export function handle_tool_calls(message) {
 
       const { height, distance, frequency, force, action } = args;
 
-      let analysis_results = calculate_mcp(
+      let analysis_results = determine_most_impactful_input(
         height,
         distance,
         frequency,
