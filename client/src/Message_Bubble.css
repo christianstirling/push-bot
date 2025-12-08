@@ -1,0 +1,26 @@
+.Message_Bubble, .Message_Bubble * {
+    margin: 0;
+    padding: 0;
+}
+
+.message-row {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.message-row.user {
+    justify-content: flex-end;
+}
+
+.message-row.assistant {
+    justify-content: flex-start;
+}
+
+.Message_Bubble {
+
+    border-radius: 25px;
+    border: 1px solid lightgray;
+
+    width: auto;
+    padding: 2px 15px;
+}

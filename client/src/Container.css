@@ -1,0 +1,14 @@
+.Container {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+
+    width: 900px;
+    height: 550px;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
