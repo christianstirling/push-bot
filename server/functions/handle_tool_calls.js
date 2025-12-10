@@ -21,11 +21,19 @@ export function handle_tool_calls(message) {
         continue;
       }
 
-      const { height, distance, frequency, force, action } = args;
+      /**
+       * Had an issue where all of the arguments being passed into the tool
+       * were not all there--some where showing up undefined
+       *
+       * Names of arguments must match the names defined in
+       * server/definitions/determine_most_impactful_input_function
+       */
+
+      const { vertical, distance_horizontal, frequency, force, action } = args;
 
       let analysis_results = determine_most_impactful_input(
-        height,
-        distance,
+        vertical,
+        distance_horizontal,
         frequency,
         force,
         action
