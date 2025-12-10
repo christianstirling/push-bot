@@ -5,19 +5,18 @@ import { determine_most_impactful_input } from "../tools/determine_most_impactfu
 export function handle_tool_calls(message) {
   const responses = [];
 
-  for (const tool_call of message.tool_calls ?? []) {
-    if (tool_call.function?.name === "calculate_mcp") {
-      const raw_args = JSON.parse(tool_call.function.arguments || "{}");
-
+  for (const tool_call of message.tool_calls) {
+    const TOOL_NAME = tool_call.function?.name;
+    if (TOOL_NAME === "determine_most_impactful_input") {
       let args;
 
       try {
-        args = JSON.parse(raw_args);
+        args = JSON.parse(tool_call.function.arguments || "{}");
       } catch (error) {
         responses.push({
           role: "tool",
           tool_call_id: tool_call.id,
-          content: `Invalid JSON for calculate_mcp args: ${raw_args}`,
+          content: `Invalid JSON for determine_most_impactful_input args: ${args}`,
         });
         continue;
       }
@@ -35,11 +34,13 @@ export function handle_tool_calls(message) {
       responses.push({
         role: "tool",
         tool_call_id: tool_call.id,
-
-        content:
-          typeof analysis_results === "string"
-            ? analysis_results
-            : JSON.stringify(analysis_results),
+        content: JSON.stringify(analysis_results),
+      });
+    } else {
+      responses.push({
+        role: "tool",
+        tool_call_id: tool_call.id,
+        content: `Invalid tool call name: ${TOOL_NAME}`,
       });
     }
   }

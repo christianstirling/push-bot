@@ -5,8 +5,9 @@ import Message_Form from "./Message_Form";
 
 export default function Chat_Box() {
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = (text) => {
+  const handleSend = async (text) => {
     const trimmed = text.trim();
     if (!trimmed) return;
 
@@ -17,6 +18,52 @@ export default function Chat_Box() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+
+    const history = [...messages, userMessage].map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
+
+    try {
+      setIsLoading(true);
+
+      const res = await fetch("http://localhost:3000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: trimmed,
+          history,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      const assistantText = data;
+      const assistantMessage = {
+        id: Date.now() + 1,
+        role: "assistant",
+        content: assistantText,
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (err) {
+      console.error(err);
+
+      const errorMessage = {
+        id: Date.now() + 2,
+        role: "system",
+        content: "Sorry, there was an error reaching the server.",
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div className="Chat_Box">

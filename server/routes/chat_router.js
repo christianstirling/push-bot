@@ -1,13 +1,24 @@
 // server/routes/chatRouter.js
 import express from "express";
 import { chat } from "../functions/chat.js";
-import { get_openai } from "../services/openai.js";
 export const chat_router = express.Router();
+
+import dotenv from "dotenv";
+dotenv.config();
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+import OpenAI from "openai";
 
 chat_router.post("/", async (req, res, next) => {
   try {
-    const { message, history } = req.body;
-    const response = await chat({ message, history, client: get_openai() });
+    const message = req.body.message;
+    console.log(message);
+    const history = req.body.history;
+    const client = new OpenAI({
+      apiKey: OPENAI_API_KEY,
+    });
+    const response = await chat({ message, history, client });
+    console.log(response);
     res.json(response);
   } catch (err) {
     next(err);
