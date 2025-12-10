@@ -31,6 +31,8 @@ export function handle_tool_calls(message) {
         action
       );
 
+      console.log(analysis_results);
+
       responses.push({
         role: "tool",
         tool_call_id: tool_call.id,

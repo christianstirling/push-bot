@@ -52,6 +52,12 @@ export function determine_most_impactful_input(
     force_mcp
   );
 
+  console.log(
+    `The most impactful task input for this job is ${
+      biggest_mcp_object["name"]
+    } with a metric contribution of ${round(biggest_mcp_object["value"], 2)}.`
+  );
+
   return `The most impactful task input for this job is ${
     biggest_mcp_object["name"]
   } with a metric contribution of ${round(biggest_mcp_object["value"], 2)}.`;
