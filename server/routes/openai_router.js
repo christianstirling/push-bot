@@ -1,7 +1,7 @@
 // server/routes/chatRouter.js
 import express from "express";
 import { chat } from "../functions/chat.js";
-export const chat_router = express.Router();
+export const openai_router = express.Router();
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -9,7 +9,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 import OpenAI from "openai";
 
-chat_router.post("/", async (req, res, next) => {
+openai_router.post("/", async (req, res, next) => {
   try {
     const message = req.body.message;
     console.log(message);

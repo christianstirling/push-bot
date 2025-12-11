@@ -4,7 +4,7 @@ import cors from "cors";
 const NODE_ENV = "development";
 const PORT = "3000";
 
-import { chat_router } from "./routes/chat_router.js";
+import { openai_router } from "./routes/openai_router.js";
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(
 app.use(express.json());
 
 // API routes
-app.use("/api/chat", chat_router);
+app.use("/api/chat", openai_router);
 
 // Health check
 app.get("/health", (req, res) => {
