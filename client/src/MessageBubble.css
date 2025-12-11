@@ -1,4 +1,4 @@
-.Message_Bubble, .Message_Bubble * {
+.MessageBubble, .MessageBubble * {
     margin: 0;
     padding: 0;
 }
@@ -16,11 +16,13 @@
     justify-content: flex-start;
 }
 
-.Message_Bubble {
+.MessageBubble {
 
     border-radius: 25px;
     border: 1px solid lightgray;
 
     width: auto;
+    max-width: 80%;
     padding: 2px 15px;
+    margin-right: 5px;
 }

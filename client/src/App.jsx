@@ -1,10 +1,10 @@
 import "./App.css";
-import Container from "./Container.jsx";
+import AppContainer from "./AppContainer.jsx";
 
 function App() {
   return (
     <div>
-      <Container />
+      <AppContainer />
     </div>
   );
 }

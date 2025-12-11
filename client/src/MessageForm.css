@@ -1,9 +1,9 @@
-.Message_Form, .Message_Form * {
+.MessageForm, .MessageForm * {
     margin: 0;
     padding: 0;
 }
 
-.Message_Form {
+.MessageForm {
     width: 100%;
     /* border: 1px red solid; */
 

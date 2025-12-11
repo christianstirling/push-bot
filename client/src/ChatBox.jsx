@@ -1,9 +1,9 @@
-import "./Chat_Box.css";
+import "./ChatBox.css";
 import React, { useState } from "react";
-import Message_Container from "./Message_Container";
-import Message_Form from "./Message_Form";
+import MessageContainer from "./MessageContainer";
+import MessageForm from "./MessageForm";
 
-export default function Chat_Box() {
+export default function ChatBox() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -65,10 +65,11 @@ export default function Chat_Box() {
       setIsLoading(false);
     }
   };
+
   return (
-    <div className="Chat_Box">
-      <Message_Container messages={messages} />
-      <Message_Form onSend={handleSend} />
+    <div className="ChatBox">
+      <MessageContainer messages={messages} />
+      <MessageForm onSend={handleSend} />
     </div>
   );
 }

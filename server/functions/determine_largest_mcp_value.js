@@ -21,6 +21,5 @@ export function determine_largest_mcp_value(
     name = "force";
     value = force;
   }
-  console.log({ name: name, value: value });
   return { name: name, value: value };
 }

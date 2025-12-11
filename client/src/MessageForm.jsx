@@ -1,7 +1,7 @@
-import "./Message_Form.css";
+import "./MessageForm.css";
 import { useState } from "react";
 
-export default function Message_Form({ onSend }) {
+export default function MessageForm({ onSend }) {
   const [value, setValue] = useState("");
 
   const handleSubmit = (e) => {
@@ -11,7 +11,7 @@ export default function Message_Form({ onSend }) {
   };
 
   return (
-    <form action="" className="Message_Form" onSubmit={handleSubmit}>
+    <form action="" className="MessageForm" onSubmit={handleSubmit}>
       <input
         type="text"
         className="message_input"
