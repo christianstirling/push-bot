@@ -10,6 +10,8 @@ export async function chat({ message, history, client }) {
     throw new Error("chat requires a client (e.g openai)");
   }
 
+  const RESULT = { assistantContent: "", toolCompleted: false, toolResult: {} };
+
   const normalized_history = (history || []).map((h) => ({
     role: h.role,
     content: h.content,
@@ -30,7 +32,14 @@ export async function chat({ message, history, client }) {
   while (response.choices[0].finish_reason === "tool_calls") {
     const tool_call_message = response.choices[0].message;
 
-    const tool_responses = await handle_tool_calls(tool_call_message);
+    console.log("---\ntool call message:\n--");
+    console.log(tool_call_message);
+
+    const tool_responses = handle_tool_calls(tool_call_message);
+    RESULT.toolResult = tool_responses[0].metadata;
+
+    console.log("---\ntool response:\n--");
+    console.log(tool_responses);
 
     messages.push(tool_call_message);
     messages.push(...tool_responses);
@@ -40,7 +49,17 @@ export async function chat({ message, history, client }) {
       messages,
       tools,
     });
+
+    console.log("---\nopenai response message:\n---");
+    console.log(response.choices[0].message);
+
+    RESULT.toolCompleted = true;
   }
 
-  return response.choices[0].message.content;
+  RESULT.assistantContent = response.choices[0].message.content;
+
+  console.log("---\nresult object in chat function\n---");
+  console.log(RESULT);
+
+  return RESULT;
 }

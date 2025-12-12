@@ -52,8 +52,14 @@ export function determine_most_impactful_input(
     force_mcp
   );
 
-  return `The most impactful task input for this job is ${name} with a metric contribution of ${round(
-    value,
-    2
-  )}.`;
+  const RESULT = {
+    name: name,
+    value: value,
+    description: `The most impactful task input for this job is ${name} with a metric contribution of ${round(
+      value,
+      2
+    )}.`,
+  };
+
+  return RESULT;
 }

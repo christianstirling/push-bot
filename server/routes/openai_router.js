@@ -12,12 +12,14 @@ import OpenAI from "openai";
 openai_router.post("/", async (req, res, next) => {
   try {
     const message = req.body.message;
+    console.log("---\nMessage in router:\n---");
     console.log(message);
     const history = req.body.history;
     const client = new OpenAI({
       apiKey: OPENAI_API_KEY,
     });
     const response = await chat({ message, history, client });
+    console.log("---\nResponse in router:\n---");
     console.log(response);
     res.json(response);
   } catch (err) {

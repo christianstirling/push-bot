@@ -8,11 +8,11 @@ export default function AppContainer() {
   const [messages, setMessages] = useState([]);
   // console.log("Messages", messages);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSolved, setIsSolved] = useState(false);
+  const [displayMode, setDisplayMode] = useState("input");
+  const [latestResult, setLatestResult] = useState({});
 
   const handleSendMessage = async (text) => {
     const trimmed = text.trim();
-    console.log("trimmed", trimmed);
     if (!trimmed) return;
 
     const userMessage = {
@@ -20,30 +20,16 @@ export default function AppContainer() {
       role: "user",
       content: trimmed,
     };
-    console.log("user message", userMessage);
 
     setMessages((prev) => [...prev, userMessage]);
-    console.log("messages (after setMessages)", messages);
 
     const history = [...messages, userMessage].map((m) => ({
       role: m.role,
       content: m.content,
     }));
-    console.log("history", history);
 
     try {
       setIsLoading(true);
-
-      console.log("loading status:", isLoading);
-
-      console.log("fetch POST from :3000/api/chat");
-      console.log(
-        "sending: ",
-        JSON.stringify({
-          message: trimmed,
-          history,
-        })
-      );
 
       const res = await fetch("http://localhost:3000/api/chat", {
         method: "POST",
@@ -61,15 +47,15 @@ export default function AppContainer() {
       }
 
       const data = await res.json();
-      console.log("response", data);
-      const assistantText = data;
+      const assistantText = data.assistantContent;
+
       const assistantMessage = {
         id: Date.now() + 1,
         role: "assistant",
         content: assistantText,
       };
+
       setMessages((prev) => [...prev, assistantMessage]);
-      console.log("messages (after setMessage)", messages);
     } catch (err) {
       console.error(err);
 
@@ -82,21 +68,16 @@ export default function AppContainer() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-      console.log("loading status", isLoading);
     }
   };
 
   const handleSendInput = async (form) => {
-    // console.log(form);
     const messageHeader = `Below is a list of inputs that define a task. Please determine the the most impactful input variable by calculating the metric contribution percentage.\n---`;
-    console.log(form.action); // == pull
+
     const { action, force, vertical, distance_horizontal, frequency } = form;
-    console.log(action); // == undefined
+
     const trimmed = `${messageHeader}\nAction: ${action}\nForce: ${force}\nVertical: ${vertical}\nDistance horizontal: ${distance_horizontal}\nFrequency: ${frequency}`;
-    // const trimmed = text.trim();
-    // console.log("trimmed", trimmed);
     if (!trimmed) {
-      // console.log("no trimmed");
       return;
     }
 
@@ -105,30 +86,16 @@ export default function AppContainer() {
       role: "user",
       content: trimmed,
     };
-    // console.log("user message", userMessage);
 
     setMessages((prev) => [...prev, userMessage]);
-    // console.log("messages (after setMessages)", messages);
 
     const history = [...messages, userMessage].map((m) => ({
       role: m.role,
       content: m.content,
     }));
-    // console.log("history", history);
 
     try {
       setIsLoading(true);
-
-      // console.log("loading status:", isLoading);
-
-      // console.log("fetch POST from :3000/api/chat");
-      // console.log(
-      //   "sending: ",
-      //   JSON.stringify({
-      //     message: trimmed,
-      //     history,
-      //   })
-      // );
 
       const res = await fetch("http://localhost:3000/api/chat", {
         method: "POST",
@@ -146,15 +113,22 @@ export default function AppContainer() {
       }
 
       const data = await res.json();
+
       // console.log("response", data);
-      const assistantText = data;
+      const assistantText = data.assistantContent;
       const assistantMessage = {
         id: Date.now() + 1,
         role: "assistant",
         content: assistantText,
       };
+
+      setDisplayMode("result");
+      setLatestResult({
+        name: data.toolResult.name,
+        value: data.toolResult.value,
+      });
+
       setMessages((prev) => [...prev, assistantMessage]);
-      // console.log("messages (after setMessage)", messages);
     } catch (err) {
       console.error(err);
 
@@ -163,11 +137,9 @@ export default function AppContainer() {
         role: "system",
         content: "Sorry, there was an error reaching the server.",
       };
-
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
-      // console.log("loading status", isLoading);
     }
   };
 
@@ -179,7 +151,10 @@ export default function AppContainer() {
         onSend={handleSendMessage}
       />
 
-      {isSolved ? <ImpactGraph /> : <TaskInput onSend={handleSendInput} />}
+      {displayMode === "input" && <TaskInput onSend={handleSendInput} />}
+      {displayMode === "result" && (
+        <ImpactGraph name={latestResult.name} value={latestResult.value} />
+      )}
     </div>
   );
 }

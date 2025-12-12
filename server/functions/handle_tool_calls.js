@@ -17,6 +17,7 @@ export function handle_tool_calls(message) {
           role: "tool",
           tool_call_id: tool_call.id,
           content: `Invalid JSON for determine_most_impactful_input args: ${args}`,
+          metadata: {},
         });
         continue;
       }
@@ -39,21 +40,29 @@ export function handle_tool_calls(message) {
         action
       );
 
+      console.log("---\nanalysis results inside tool handler\n---");
       console.log(analysis_results);
 
       responses.push({
         role: "tool",
         tool_call_id: tool_call.id,
-        content: JSON.stringify(analysis_results),
+        content: JSON.stringify(analysis_results.description),
+        metadata: {
+          name: analysis_results.name,
+          value: analysis_results.value,
+        },
       });
     } else {
       responses.push({
         role: "tool",
         tool_call_id: tool_call.id,
         content: `Invalid tool call name: ${TOOL_NAME}`,
+        metadata: {},
       });
     }
   }
+  console.log("---\nresponse inside tool handler\n---");
+  console.log(responses);
 
   return responses;
 }

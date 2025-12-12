@@ -18,7 +18,6 @@ export default function TaskInput({ onSend }) {
     e.preventDefault();
     //send to api here
     onSend(form);
-    console.log(form);
   }
 
   return (
