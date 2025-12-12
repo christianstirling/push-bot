@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./TaskInput.css";
 
-export default function TaskInput() {
+export default function TaskInput({ onSend }) {
   const [form, setForm] = useState({
+    action: "",
     force: "",
     vertical: "",
     distance_horizontal: "",
@@ -16,6 +17,7 @@ export default function TaskInput() {
   function handleSubmit(e) {
     e.preventDefault();
     //send to api here
+    onSend(form);
     console.log(form);
   }
 
@@ -30,7 +32,7 @@ export default function TaskInput() {
               <input
                 type="radio"
                 name="action"
-                value={form.action}
+                value={(form.action = "push")}
                 onChange={handleChange}
               />
               Push
@@ -39,7 +41,7 @@ export default function TaskInput() {
               <input
                 type="radio"
                 name="action"
-                value={form.action}
+                value={(form.action = "pull")}
                 onChange={handleChange}
               />
               Pull
