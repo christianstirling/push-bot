@@ -1,4 +1,4 @@
-import { calculate_mcp_values } from "../functions/calculate_mcp_values";
+import { calculate_mcp_values } from "../utils/calculate_mcp_values";
 import { describe, test, expect } from "@jest/globals";
 
 describe("calculate_mcp_values", () => {

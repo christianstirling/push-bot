@@ -1,4 +1,4 @@
-import { calculate_contribution_values } from "../functions/calculate_contribution_values";
+import { calculate_contribution_values } from "../utils/calculate_contribution_values";
 import { describe, test, expect } from "@jest/globals";
 
 describe("calculate_contribution_values", () => {

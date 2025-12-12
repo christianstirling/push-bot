@@ -1,4 +1,4 @@
-import { round } from "../functions/round";
+import { round } from "../utils/round";
 import { describe, test, expect } from "@jest/globals";
 
 describe("round", () => {

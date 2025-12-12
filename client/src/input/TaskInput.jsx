@@ -57,7 +57,7 @@ export default function TaskInput({ onSend }) {
             />
           </label>
           <label htmlFor="" className="input-item">
-            Vertical height of the hands (in meters)
+            Vertical height of the hands above the floor (in meters)
             <input
               type="number"
               name="vertical"
@@ -86,7 +86,7 @@ export default function TaskInput({ onSend }) {
         </fieldset>
 
         <button type="submit" className="input-button">
-          Submit
+          submit
         </button>
       </form>
     </div>

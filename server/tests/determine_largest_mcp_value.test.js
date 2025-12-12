@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals";
-import { determine_largest_mcp_value } from "../functions/determine_largest_mcp_value.js";
+import { determine_largest_mcp_value } from "../utils/determine_largest_mcp_value.js";
 
 describe("determine_largest_mcp_value", () => {
   test("Return height as the largest value", () => {

@@ -1,10 +1,10 @@
 // server/tools/determine_most_impactful_input.js
 
-import { round } from "../functions/round.js";
-import { calculate_contribution_values } from "../functions/calculate_contribution_values.js";
-import { calculate_mcp_values } from "../functions/calculate_mcp_values.js";
-import { calculate_scale_factors } from "../functions/calculate_scale_factors.js";
-import { determine_largest_mcp_value } from "../functions/determine_largest_mcp_value.js";
+import { round } from "../utils/round.js";
+import { calculate_contribution_values } from "../utils/calculate_contribution_values.js";
+import { calculate_mcp_values } from "../utils/calculate_mcp_values.js";
+import { calculate_scale_factors } from "../utils/calculate_scale_factors.js";
+import { determine_largest_mcp_value } from "../utils/determine_largest_mcp_value.js";
 
 export function determine_most_impactful_input(
   vertical,

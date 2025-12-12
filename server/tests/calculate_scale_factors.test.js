@@ -1,4 +1,4 @@
-import { calculate_scale_factors } from "../functions/calculate_scale_factors";
+import { calculate_scale_factors } from "../utils/calculate_scale_factors";
 import { describe, test, expect } from "@jest/globals";
 
 describe("calculate_scale_factors", () => {

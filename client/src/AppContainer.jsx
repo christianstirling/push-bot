@@ -1,12 +1,14 @@
 import "./AppContainer.css";
-import ChatBox from "./ChatBox";
+import ChatBox from "./chat/ChatBox";
 import TaskInput from "./input/TaskInput.jsx";
-import { useState } from "react";
+import ImpactGraph from "./display/ImpactGraph.jsx";
+import { use, useState } from "react";
 
 export default function AppContainer() {
   const [messages, setMessages] = useState([]);
   // console.log("Messages", messages);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSolved, setIsSolved] = useState(false);
 
   const handleSendMessage = async (text) => {
     const trimmed = text.trim();
@@ -171,13 +173,13 @@ export default function AppContainer() {
 
   return (
     <div className="AppContainer">
-      <TaskInput onSend={handleSendInput} />
-
       <ChatBox
         messages={messages}
         isLoading={isLoading}
         onSend={handleSendMessage}
       />
+
+      {isSolved ? <ImpactGraph /> : <TaskInput onSend={handleSendInput} />}
     </div>
   );
 }
