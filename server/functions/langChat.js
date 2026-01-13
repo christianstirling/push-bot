@@ -1,14 +1,15 @@
 // server/functions/chat.js
 
+//new
+import { ChatOpenAI } from "@langchain/openai";
+
 import { system_message } from "../prompts/system_message.js";
-import { tools } from "../definitions/index.js";
+import { tools } from "../definitions/langIndex.js";
 import { handle_tool_calls } from "./handle_tool_calls.js";
 
-const MODEL = "gpt-4.1-mini";
-
-export async function chat({ message, history, client }) {
-  if (!client) {
-    throw new Error("chat requires a client (e.g openai)");
+export async function chat({ message, history, model: modelWithTools }) {
+  if (!modelWithTools) {
+    throw new Error("chat requires a model and an api key");
   }
 
   const RESULT = { assistantContent: "", toolCompleted: false, toolResult: {} };
@@ -24,17 +25,12 @@ export async function chat({ message, history, client }) {
     { role: "user", content: message },
   ];
 
-  let response = await client.chat.completions.create({
-    model: MODEL,
-    messages,
-    tools,
-  });
+  let response = await modelWithTools.invoke(messages);
 
-  while (response.choices[0].finish_reason === "tool_calls") {
-    const tool_call_message = response.choices[0].message;
+  console.log(response);
 
-    console.log("---\ntool call message:\n--");
-    console.log(tool_call_message);
+  while (response.response_metadata.finish_reason === "tool_calls") {
+    const tool_call_message = response.tool_calls;
 
     const tool_responses = handle_tool_calls(tool_call_message);
     RESULT.toolResult = tool_responses[0].metadata;
@@ -45,19 +41,15 @@ export async function chat({ message, history, client }) {
     messages.push(tool_call_message);
     messages.push(...tool_responses);
 
-    response = await client.chat.completions.create({
-      model: MODEL,
-      messages,
-      tools,
-    });
+    let response = await modelWithTools.invoke(messages);
 
     console.log("---\nopenai response message:\n---");
-    console.log(response.choices[0].message);
+    console.log(response.content);
 
     RESULT.toolCompleted = true;
   }
 
-  RESULT.assistantContent = response.choices[0].message.content;
+  RESULT.assistantContent = response.content;
 
   console.log("---\nresult object in chat function\n---");
   console.log(RESULT);

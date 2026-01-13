@@ -23,6 +23,8 @@ export default function AppContainer() {
 
     setMessages((prev) => [...prev, userMessage]);
 
+    console.log(messages);
+
     const history = [...messages, userMessage].map((m) => ({
       role: m.role,
       content: m.content,
@@ -47,7 +49,8 @@ export default function AppContainer() {
       }
 
       const data = await res.json();
-      const assistantText = data.assistantContent;
+
+      const assistantText = data.response;
 
       const assistantMessage = {
         id: Date.now() + 1,
@@ -56,6 +59,8 @@ export default function AppContainer() {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      console.log(messages);
     } catch (err) {
       console.error(err);
 

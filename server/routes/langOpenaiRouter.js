@@ -1,0 +1,41 @@
+// server/routes/chatRouter.js
+import express from "express";
+// import { chat } from "../functions/chat.js";
+import { chat } from "../functions/langChat.js";
+import { tools } from "../definitions/langIndex.js";
+import { determineMostImpactfulInputTool } from "../definitions/langIndex.js";
+export const openai_router = express.Router();
+
+import dotenv from "dotenv";
+dotenv.config();
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+// import OpenAI from "openai";
+
+import { ChatOpenAI } from "@langchain/openai";
+
+openai_router.post("/", async (req, res, next) => {
+  try {
+    const message = req.body.message;
+    console.log("---\nMessage in router:\n");
+    console.log(message);
+    const history = req.body.history;
+    // const client = new OpenAI({
+    //   apiKey: OPENAI_API_KEY,
+    // });
+    const model = new ChatOpenAI({
+      model: "gpt-4.1-mini",
+      apiKey: OPENAI_API_KEY,
+      temperature: 0,
+    });
+
+    const modelWithTools = model.bindTools([determineMostImpactfulInputTool]);
+    const response = await chat({ message, history, modelWithTools });
+
+    console.log("---\nResponse in router:\n---");
+    console.log(response);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+});
