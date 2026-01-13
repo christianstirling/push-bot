@@ -103,6 +103,8 @@ async function runChat({ input, history }) {
   return assistantText;
 }
 
+// Build a router that we can plug into the '/api/chat' path
+
 const newRouter = express.Router();
 
 newRouter.post("/", async (req, res, next) => {
@@ -129,7 +131,7 @@ newRouter.post("/", async (req, res, next) => {
   }
 });
 
-// API routes
+// API routes - this is where we plug in the router built above
 app.use("/api/chat", newRouter);
 
 // Health check
