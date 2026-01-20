@@ -1,7 +1,15 @@
-import express from "express";
+/**
+ * PART 0 - SET UP
+ *
+ * Importing packages
+ */
+
+import express, { response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { z } from "zod";
+
+import { openai_router } from "./routes/openai_router.js";
 
 import { ChatOpenAI } from "@langchain/openai";
 import {
@@ -24,7 +32,7 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173",
-  })
+  }),
 );
 
 app.use(express.json());
@@ -38,7 +46,7 @@ const BodySchema = z.object({
       z.object({
         role: z.enum(["user", "assistant"]),
         content: z.string(),
-      })
+      }),
     )
     .default([]),
 });
@@ -71,7 +79,7 @@ async function runChat({ input, history }) {
         m &&
         typeof m === "object" &&
         typeof m.role === "string" &&
-        typeof m.content === "string"
+        typeof m.content === "string",
     )
     .map((m) => {
       return m.role === "user"
@@ -80,15 +88,6 @@ async function runChat({ input, history }) {
     });
 
   const chain = prompt.pipe(model);
-
-  console.log("RAW HISTORY: ", history);
-  console.log(
-    "MAPPED HISTORY: ",
-    historyMessages.map((m) => ({
-      type: m?.constructor?.name,
-      value: m,
-    }))
-  );
 
   const responseMessage = await chain.invoke({
     input,
@@ -116,6 +115,8 @@ newRouter.post("/", async (req, res, next) => {
       history: parsed.history,
     });
 
+    console.log(response);
+
     const updatedHistory = [
       ...parsed.history,
       { role: "user", content: parsed.message },
@@ -132,7 +133,7 @@ newRouter.post("/", async (req, res, next) => {
 });
 
 // API routes - this is where we plug in the router built above
-app.use("/api/chat", newRouter);
+app.use("/api/chat", openai_router);
 
 // Health check
 app.get("/health", (req, res) => {

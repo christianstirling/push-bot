@@ -50,6 +50,8 @@ export default function AppContainer() {
 
       const data = await res.json();
 
+      console.log("response", data);
+
       const assistantText = data.response;
 
       const assistantMessage = {
@@ -119,7 +121,7 @@ export default function AppContainer() {
 
       const data = await res.json();
 
-      // console.log("response", data);
+      console.log("response", data);
       const assistantText = data.assistantContent;
       const assistantMessage = {
         id: Date.now() + 1,
